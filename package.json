@@ -1,0 +1,21 @@
+{
+  "name": "dconnect",
+  "version": "0.1.0",
+  "description": "Node.js module to interact with hubs implementing Direct Connect protocol",
+  "main": "global.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/m1ch3lcl/dconnect.git"
+  },
+  "keywords": [
+    "dc"
+  ],
+  "author": "Clément Michel",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/m1ch3lcl/dconnect/issues"
+  }
+}
