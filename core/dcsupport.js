@@ -25,7 +25,7 @@ module.exports = function(socket) {
 			if(cmd_reg.exec(cmd_str)) {
 				var cmd = RegExp.$1;
 				var args = RegExp.$2
-				console.log(cmd+" : "+args)
+				console.log("[dcsupport.js] "+cmd+" : "+args)
 				socket.emit(cmd, args);
 			}
 		}

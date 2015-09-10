@@ -32,14 +32,12 @@ module.exports = function(server) {
 		setSocket : function(socket) {
 			var client = this;
 			socket.on("ADCSND", function(args) {
-				console.log(args);
 				socket.dataTransfer = true;
 				if(/file files.xml (\d+) (\d+)/.test(args)) {
 					client.queries.current.expecting = RegExp.$2;
 					client.queries.current.incomingData = new Buffer(0);
 					client.queries.current.received = 0;
 				} else if (/file TTH\/([^ ]*) (\d+) (\d+)/.test(args)) {
-					console.log(RegExp.$3);
 					client.queries.current.expecting = RegExp.$3;
 					client.queries.current.incomingData = new Buffer(0);
 					client.queries.current.received = 0;
@@ -50,7 +48,7 @@ module.exports = function(server) {
 				query.dataHandler(data, client.queries.current.received, client.queries.current.expecting);
 				client.queries.current.received += data.length;
 				if(client.queries.current.received == client.queries.current.expecting) {
-					console.log('Reçu!')
+					console.log('[p2p.js] Reçu!')
 					client.queries.current.callback();
 					delete client.queries.current;
 					client.processNext();
@@ -60,7 +58,7 @@ module.exports = function(server) {
 				return;
 			})
 			socket.on('Error', function(args) {
-				console.log(args);
+				console.log('[p2p.js] '+args);
 				client.processNext();
 			})
 			socket.on('end', function() {
@@ -135,10 +133,9 @@ module.exports = function(server) {
 			local.port = port;
 			local.addr = ip;
 			local.identity = identity;
-			//console.log(local);
 
 			local.server = net.createServer(function(c) {
-				console.log('Nouveau client !')
+				console.log('[p2p.js] Nouveau client !')
 				addDCSupport(c);
 				c.on("Lock", function(args) {
 					var lock = unpack("EXTENDEDPROTOCOLABCABCABCABCABCABC");
@@ -149,7 +146,6 @@ module.exports = function(server) {
 					for (i = 0; i < lock.length; i++)
 						key[i] = ((key[i]<<4) & 240) | ((key[i]>>4) & 15);
 					c.write('$MyNick '+identity+'|$Lock EXTENDEDPROTOCOLABCABCABCABCABCABC|$Direction Download 35000|$Key '+pack(key)+'|');
-					console.log("Clef envoyée !")
 				})
 				c.on("Key", function(args) {
 					var client = local.clients[c.user];
@@ -162,7 +158,7 @@ module.exports = function(server) {
 			});
 
 			local.server.listen(port, function() {
-				console.log('Prêt à télécharger');
+				console.log('[p2p.js] Prêt à télécharger');
 				server.public_interface.emit('listening');
 			})
 		}

@@ -11,7 +11,7 @@ module.exports = function(server) {
 		local.searchServer = dgram.createSocket('udp4');
 		local.searchServer.on('listening', function () {
 		    var address = local.searchServer.address();
-		    console.log('UDP Server listening on ' + address.address + ":" + address.port);
+		    console.log('[search.js] UDP Server listening on ' + address.address + ":" + address.port);
 		});
 
 		local.searchServer.on('message', function (message, remote) {
@@ -26,10 +26,8 @@ module.exports = function(server) {
 		    	}
 		    }
 		    parts.push(message.slice(prev));
-		    console.log(parts);
 		    var result = {};
 		    if(parts.length<3) {
-		    	console.log('directory')
 		    	result.type = 'directory';
 		    	var part1 = parts[0].slice(4);
 		    	var part1bis = new Buffer(0);
@@ -47,7 +45,6 @@ module.exports = function(server) {
 		    	}
 		    }
 		    else {
-				console.log('file')
 				result.type = 'file';
 				var part1 = parts[0].slice(4);
 		    	var part1bis = new Buffer(0);
@@ -75,7 +72,7 @@ module.exports = function(server) {
 				client.send(result.toString('binary'), 0, result.toString('binary').length, port, ip, function(err, bytes) {
 				    if (err) throw err;
 				    client.close();
-				});	
+				});
 			})
 		})
 

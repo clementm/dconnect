@@ -26,7 +26,7 @@ module.exports = function(server) {
 		local.clients = {};
 
 		server.core.on('connection-request', function(user, ip, port) {
-			console.log("Connexion vers "+user)
+			console.log("[share.js] Connexion vers "+user)
 			var client = net.connect({port: port, host: ip}, function() { //'connect' listener
 				client.write('$MyNick '+server.public_interface.userName()+'|$Lock EXTENDEDPROTOCOLABCABCABCABCABCABC Pk=POPCORN|');
 				client.write('Réponse !');
@@ -46,7 +46,6 @@ module.exports = function(server) {
 				client.user = args;
 			})
 			client.on('ADCGET', function(args) {
-				console.log(args);
 				if(/file files.xml (\d+) (-?\d+)/.test(args)) {
 					server.public_interface.emit('filelist-request', client.user, function(stream, size) {
 

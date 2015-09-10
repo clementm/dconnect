@@ -51,7 +51,7 @@ module.exports.server = function() {
 		local.hub.port = hubPort;
 		local.identity = identity;
 		local.hubSocket = net.connect({port: local.hub.port, host: local.hub.addr}, function() { //'connect' listener
-			console.log('[Serveur] Connecté au serveur, initialisation de la communication...');
+			console.log('[server.js] Connecté au serveur, initialisation de la communication...');
 			addDCSupport(local.hubSocket);
 		})
 		local.hubSocket.on("HubName", function(name) {
@@ -94,7 +94,7 @@ module.exports.server = function() {
 			core.emit("search", ip, port, terms);
 		})
 		local.hubSocket.on("end", function() {
-			console.log('[Serveur] Déconnecté !')
+			console.log('[server.js] Déconnecté !')
 			local.ready = false;
 			clientdc.emit('disconnected');
 		})
