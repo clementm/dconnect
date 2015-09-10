@@ -1,9 +1,9 @@
 // Charge les différents modules DC
 module.exports = function() {
-	var client = require('./server.js').server();
-	require('./p2p.js')(client);
-	require('./share.js')(client);
-	require('./search.js')(client)
+	var client = require('./core/server.js').server();
+	require('./core/p2p.js')(client);
+	require('./core/share.js')(client);
+	require('./core/search.js')(client)
 
 	return client.public_interface;
 }
